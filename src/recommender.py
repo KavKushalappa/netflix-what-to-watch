@@ -48,7 +48,8 @@ def score_show(show: Dict[str, Any], pref: Preferences) -> Tuple[float, Dict[str
     total = sum(components.values())
     return total, components
 
-def recommend(shows: List[Dict[str, Any]], pref: Preferences, top_n: int = 3) -> List[Dict[str, Any]]:
+
+def recommend(shows: List[Dict[str, Any]], pref: Preferences, top_n: int = 3):
     scored = []
     for s in shows:
         total, components = score_show(s, pref)
@@ -58,4 +59,5 @@ def recommend(shows: List[Dict[str, Any]], pref: Preferences, top_n: int = 3) ->
             "explain": {k: round(v, 3) for k, v in components.items()}
         })
 
-    scored.sor
+    scored.sort(key=lambda x: x["score"], reverse=True)
+    return scored[:top_n]
